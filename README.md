@@ -66,9 +66,9 @@ To integrate with AWS S3:
 
 2. **Set Up Airflow Connection:**
    - In the Airflow UI, go to `Admin > Connections` and add a new record:
-     - **Connection ID:** `aws_s3_connection`
-     - **Connection Type:** `Amazon Web Services`
-     - Provide the Access Key ID and Secret Access Key.
+   - **Connection ID:** `aws_s3_connection`
+   - **Connection Type:** `Amazon Web Services`
+   - Provide the Access Key ID and Secret Access Key.
 
 #### Snowflake Connection
 
@@ -84,10 +84,10 @@ To integrate with Snowflake:
 I’ve configured the necessary SMTP settings in the airflow.cfg file.
 [airflow/airflow.cfg](airflow/airflow.cfg) 
 
- -To set it up, go to the SMTP section of the file and enter your email ID. 
- -For the password, if you're using Gmail, you’ll need to generate an app password.
- -To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. 
- -Then, add this generated password into the airflow.cfg file.
+ - To set it up, go to the SMTP section of the file and enter your email ID. 
+ - For the password, if you're using Gmail, you’ll need to generate an app password.
+ - To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. 
+ - Then, add this generated password into the airflow.cfg file.
 
 ### `s3_to_snowflake_etl_with_operators_and_sensors_dag`
 
