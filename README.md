@@ -131,11 +131,12 @@ This DAG monitors a file in an S3 bucket and performs branching logic based on i
 - **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.Sends an email if the file does not exist in the bucket.
 Uses the EmailOperator within a Python callable.
 
+
 ***Workflow***
-check_file_exists → branching
-branching → process_etl_task (if file exists)
-branching → send_alert_email_task (if file does not exist)
-BranchPythonOperator ensures only one path (branch) executes, preventing unnecessary task executions.
+- check_file_exists → branching
+- branching → process_etl_task (if file exists)
+- branching → send_alert_email_task (if file does not exist)
+- BranchPythonOperator ensures only one path (branch) executes, preventing unnecessary task executions.
 
 ### `taskflow_api`
 
