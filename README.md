@@ -147,7 +147,7 @@ This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is
 - **Transform**: Processes the data (e.g., making all text uppercase).
 - **Load**: Inserts the processed data into Snowflake.
 
-### `dbt_dag`
+### `dbt_job_trigger_dag`
 
 [airflow/dags/dbt_job_trigger_dag.py](airflow/dags/dbt_job_trigger_dag.py)
 
