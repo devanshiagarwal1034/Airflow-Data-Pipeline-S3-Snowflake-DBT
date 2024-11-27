@@ -118,7 +118,7 @@ In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and tas
 - **Email Notification Task:** Sends a success notification email after completion.
 - **Task Group** :The TaskGroup organizes extract_from_s3 and transform_data under a logical group (extract_and_transform). This improves DAG readability in the Airflow UI.
 
-### `file_check_and_branching_dag`
+### `trigger_and_branching_dag`
 
 [airflow/dags/trigger_and_branching_dag.py](airflow/dags/trigger_and_branching_dag.py)
 
