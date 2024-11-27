@@ -12,7 +12,7 @@ default_args = {
     "depends_on_past": False,
     "email_on_failure": True,
     "email_on_retry": False,
-    "email": ["devanshiec1034@gmail.com"],
+    "email": ["<your_email_id>"],
 }
 
 def extract_from_s3(**kwargs):
@@ -87,7 +87,7 @@ with DAG(
 
     email_task = EmailOperator(
         task_id="send_email",
-        to="devanshiec1034@gmail.com",
+        to="<your_email_id>",
         subject="ETL Workflow Completed",
         html_content="The ETL workflow has completed successfully.",
     )
