@@ -96,6 +96,8 @@ I’ve configured the necessary SMTP settings in the airflow.cfg file.
  - To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. 
  - Then, add this generated password into the airflow.cfg file.
 
+ ![Image](Images/email_notification_1.png)
+
 ### `s3_to_snowflake_etl_with_operators_and_sensors_dag`
 
 [airflow/dags/s3_to_snowflake_etl_with_operators_and_sensors_dag.py](airflow/dags/s3_to_snowflake_etl_with_operators_and_sensors_dag.py)
