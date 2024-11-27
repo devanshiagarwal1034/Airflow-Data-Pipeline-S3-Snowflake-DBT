@@ -47,7 +47,7 @@ load_table = CopyFromExternalStageToSnowflakeOperator(
 #  Send email notification after loading data
 send_email = EmailOperator(
     task_id='send_email_notification',
-    to='devanshiec1034@gmail.com',  # Replace with the recipient's email
+    to='<your_email_id>',  # Replace with the recipient's email
     subject='Snowflake Data Load Completed',
     html_content="""<h3>The data from S3 has been successfully loaded into Snowflake!</h3>
                     <p>Table: travel_db.airflow.customer_details_raw</p>
