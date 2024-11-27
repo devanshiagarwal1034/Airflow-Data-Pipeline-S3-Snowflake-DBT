@@ -1,142 +1,142 @@
 # Airflow Project
 
 ### Overview
+
 In this project, I’ve explored the powerful capabilities of Apache Airflow, gaining hands-on experience in workflow orchestration and integrating it with cloud platforms like **AWS and Snowflake**. As a data enthusiast, I’ve created this project to understand how Airflow can automate complex tasks, manage dependencies, and integrate various systems—making it an invaluable tool for anyone working with data pipelines.
 
 ### Concepts Covered
 
-- **DAGs (Directed Acyclic Graphs)**
-- **Tasks and Operators**
-- **Connections (using AWS S3, Snowflake, DBT)**
-- **Hooks and Sensors**
-- **XComs (Cross-communication between tasks)**
-- **TaskFlow API**
+- DAGs (Directed Acyclic Graphs)
+- Tasks and Operators
+- Connections (using AWS S3, Snowflake, DBT)
+- Hooks and Sensors
+- XComs (Cross-communication between tasks)
+- TaskFlow API
 
 ### Prerequisites
 
 Before starting, ensure the following are installed:
 
-- **Docker Desktop** [Installation Guide](https://docs.docker.com/desktop/setup/install/windows-install/)
-- **Visual Studio Code** [Download Link](https://code.visualstudio.com/download)
+- [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/)
+- [Visual Studio Code](https://code.visualstudio.com/download)
 
 ### Project Setup
 
-### Step 1: Setting Up Docker and Visual Studio Code
-- Create a new folder in Visual Studio Code for your project.
-- Add the following files to the folder:
-    - `Dockerfile` (located in `airflow/dockerfile`)
-    - `docker-compose.yml` (located in `airflow/docker-compose.yml`)
-- These are critical for running Airflow in a containerized environment.
+#### Step 1: Setting Up Docker and Visual Studio Code
 
-### Step 2: Build and Start Docker Containers
-1. Right-click on the Dockerfile in Visual Studio Code and select "Build Image."
+1. Create a new folder in Visual Studio Code for your project.
+2. Add the following files to the folder:
+   - `Dockerfile` ([airflow/dockerfile](airflow/dockerfile))
+   - `docker-compose.yml` ([airflow/docker-compose.yml](airflow/docker-compose.yml))
+
+These are critical for running Airflow in a containerized environment.
+
+#### Step 2: Build and Start Docker Containers
+
+1. Right-click on the `Dockerfile` in Visual Studio Code and select "Build Image".
 2. Provide a name for your image (example: `airflow_project`).
-3. Once the build is complete, right-click on `docker-compose.yml` and select "Compose Up."
+3. Press Enter to start building the image.
+4. Once the build is complete, right-click on `docker-compose.yml` and select "Compose Up".
 
-### Step 3: Verify Airflow Installation
-- After successful execution, an Airflow folder will be generated in your project directory.
-- Open your browser and navigate to [http://localhost:8080](http://localhost:8080/) to access the Airflow UI.
-- Log in with the following credentials:
-    - Username: `admin`
-    - Password: (found in `standalone_admin_password.txt` in the project folder)
+#### Step 3: Verify Airflow Installation
 
-### welcome_dag
+After successful execution, an Airflow folder will be generated in your project directory. Open your browser and navigate to [http://localhost:8080](http://localhost:8080/) to access the Airflow UI. Log in with the following credentials:
+- Username: `admin`
+- Password: (found in `standalone_admin_password.txt` in the project folder)
 
-**Path**: `airflow/dags/welcome_dag.py`
+### `welcome_dag`
 
-This simple DAG is designed to verify that the Airflow setup is working correctly. It runs daily at 11:00 PM and performs the following tasks:
+[airflow/dags/welcome_dag.py](airflow/dags/welcome_dag.py)
 
+This simple DAG is created to verify that Airflow setup is working correctly. It runs daily at 11:00 PM and performs the following tasks:
 - Prints a friendly "Welcome" message.
 - Displays the current date.
 - Fetches a motivational quote from the Quotable API.
 
 ### Integrations
 
-### AWS S3 Connection
-**To integrate with AWS S3**:
-1. **Create an IAM User**:
-    - Log in to your AWS root account and create a user named `airflow_user`.
-    - Assign the required permissions for accessing S3.
-    - Download the Access Key ID and Secret Access Key.
-2. **Set Up Airflow Connection**:
-    - In the Airflow UI, go to `Admin > Connections` and add a new record:
-        - Connection ID: `aws_s3_connection`
-        - Connection Type: `Amazon Web Services`
-        - Provide the Access Key ID and Secret Access Key.
+#### AWS S3 Connection
 
-### Snowflake Connection
-**To integrate with Snowflake**:
+To integrate with AWS S3:
+
+1. **Create an IAM User:**
+   - Log in to your AWS root account and create a user named `airflow_user`.
+   - Assign the required permissions for accessing S3.
+   - Download the Access Key ID and Secret Access Key.
+
+2. **Set Up Airflow Connection:**
+   - In the Airflow UI, go to `Admin > Connections` and add a new record:
+     - **Connection ID:** `aws_s3_connection`
+     - **Connection Type:** `Amazon Web Services`
+     - Provide the Access Key ID and Secret Access Key.
+
+#### Snowflake Connection
+
+To integrate with Snowflake:
+
 1. In the Airflow UI, add another connection:
-    - Connection ID: `airflow_snowflake_conn`
-    - Connection Type: `Snowflake`
-    - Fill in details for schema, database, warehouse, account ID, login, and password.
+   - **Connection ID:** `airflow_snowflake_conn`
+   - **Connection Type:** `Snowflake`
+   - Fill in details for schema, database, warehouse, account ID, login, and password.
 
-### Email Setup
-**Path**: `airflow/airflow.cfg`
+#### Email Setup
 
-To configure email, go to the SMTP section of the `airflow.cfg` file and enter your email ID. For Gmail users, generate an app password by:
-1. Going to "Manage your Google account" and searching for "App passwords."
-2. Set the app name as "Airflow" and generate the password.
-3. Add the generated password to the `airflow.cfg` file.
+To set up email notifications, configure the necessary SMTP settings in the `airflow.cfg` file. For Gmail, generate an app password by going to "Manage your Google account" → "App passwords". Set the app name as "Airflow" and use the generated password.
 
-### operators_sensors_s3_snowflake_dag
+### `operators_sensors_s3_snowflake_dag`
 
-**Path**: `airflow/dags/operators_sensors_s3_snowflake_dag.py`
+[airflow/dags/operators_sensors_s3_snowflake_dag.py](airflow/dags/operators_sensors_s3_snowflake_dag.py)
 
 This DAG demonstrates a real-world use case by orchestrating data transfer from AWS S3 to Snowflake. It leverages advanced Airflow concepts like sensors, operators, and email notifications.
 
-**DAG Details**:
-- **Schedule Interval**: Runs daily at 11:00 PM (`0 23 * * *`)
-- **Start Date**: Yesterday (`days_ago(1)`)
+**DAG Details:**
+- **Schedule Interval:** Runs daily at 11:00 PM (`0 23 * * *`)
+- **Start Date:** Yesterday (`days_ago(1)`)
 
-**Tasks**:
-- **S3 Key Sensor**: Waits for the file `customer_details_raw.csv` to be available in S3.
-- **Truncate Snowflake Table**: Clears the old data.
-- **Load Data to Snowflake**: Copies the new data from S3 to Snowflake.
-- **Email Notification**: Sends an email when the process is complete.
+**Tasks:**
+- **S3 Key Sensor:** Waits for the file `customer_details_raw.csv` to be available in S3.
+- **Truncate Snowflake Table:** Clears the old data.
+- **Load Data to Snowflake:** Copies the new data from S3 to Snowflake.
+- **Email Notification:** Sends an email when the process is complete.
 
-### hooks_xcom_s3_snowflake
+### `hooks_xcom_s3_snowflake`
 
-**Path**: `airflow/dags/hooks_s3_snowflake.py`
+[airflow/dags/hooks_s3_snowflake.py](airflow/dags/hooks_s3_snowflake.py)
 
 In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and task groups to make the ETL process more organized.
 
-**Tasks**:
-- **Extract Task** (`extract_from_s3`): Uses `S3Hook` to read the content of a file from S3 and pushes it into XCom for downstream tasks.
-- **Transform Task** (`transform_data`): Processes the data and pushes the transformed data into XCom.
-- **Load Task** (`load_to_snowflake`): Pulls the transformed data from XCom and inserts it into Snowflake.
-- **Email Notification Task**: Sends a success notification email after the ETL workflow is completed.
+**Tasks:**
+- **Extract Task (`extract_from_s3`)**: Uses `S3Hook` to read content of a file from S3 and pushes it to XCom.
+- **Transform Task (`transform_data`)**: Processes the CSV data and pushes the transformed data to XCom.
+- **Load Task (`load_to_snowflake`)**: Inserts the transformed data into Snowflake using `SnowflakeHook`.
+- **Email Notification Task:** Sends a success notification email after completion.
 
-**Task Group**: Organizes `extract_from_s3` and `transform_data` under a logical group (extract_and_transform).
+### `branching_trigger`
 
-### branching_trigger
-
-**Path**: `airflow/dags/branching_trigger.py`
+[airflow/dags/branching_trigger.py](airflow/dags/branching_trigger.py)
 
 This DAG monitors a file in an S3 bucket and performs branching logic based on its presence. If the file exists, it processes the ETL; if not, it sends an alert email.
 
-**Tasks**:
-- **Check File Task**: Uses `S3Hook.check_for_key()` to verify if `booking_details_raw.csv` exists in the bucket.
-- **Branching Task**: Directs the workflow to either process the ETL or send an alert email.
-- **ETL Processing Task**: Placeholder for ETL logic.
-- **Email Alert Task**: Sends an email if the file does not exist in the bucket.
+**Tasks:**
+- **Check File Task (`check_file_exists`)**: Verifies if `booking_details_raw.csv` exists in the bucket `airflow-buckets`.
+- **Branching Task (`branching`)**: Directs workflow based on file presence (process ETL or send alert email).
+- **ETL Processing Task (`process_etl`)**: Placeholder for actual ETL logic.
+- **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.
 
-### taskflow_api
+### `taskflow_api`
 
-**Path**: `airflow/dags/taskflow_api.py`
+[airflow/dags/taskflow_api.py](airflow/dags/taskflow_api.py)
 
-This DAG demonstrates an ETL pipeline implemented using Airflow's TaskFlow API. Each step is defined as a Python function decorated with `@task()`.
-
-**Tasks**:
+This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is defined as a Python function decorated with `@task()`:
 - **Extract**: Reads a file from S3 and converts it into a Pandas DataFrame.
 - **Transform**: Processes the data (e.g., making all text uppercase).
 - **Load**: Inserts the processed data into Snowflake.
 
-### dbt_dag
+### `dbt_dag`
 
-**Path**: `airflow/dags/dbt_dag.py`
+[airflow/dags/dbt_dag.py](airflow/dags/dbt_dag.py)
 
-I created this DAG to explore how to connect DBT Cloud with Airflow using a previous DBT project. The process includes generating an API token in DBT Cloud and setting up the connection in the Airflow UI to trigger the DBT job.
+This DAG integrates DBT Cloud with Airflow. It triggers a DBT job using the DBT Cloud connection set in the Airflow UI. The job executes `dbt build` on a previously created DBT project.
 
 ### Conclusion
 
