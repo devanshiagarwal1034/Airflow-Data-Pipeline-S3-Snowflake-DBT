@@ -25,8 +25,8 @@ Project Setup
 Step 1: Setting Up Docker and Visual Studio Code
 Create a new folder in Visual Studio Code for your project.
 Add the following files to the folder:
-Dockerfile
-docker-compose.yml
+Dockerfile airflow/dockerfile
+docker-compose.yml airflow/docker-compose.yml
 These are critical for running Airflow in a containerized environment.
 
 Step 2: Build and Start Docker Containers
@@ -44,6 +44,7 @@ Username: admin
 Password: (found in standalone_admin_password.txt in the project folder)
 
 welcome_dag
+airflow/dags/welcome_dag.py
 
  It is a simple DAG I’ve created to verify that  Airflow setup is working correctly. It runs daily at 11:00 PM and performs the following tasks:
 
@@ -77,9 +78,12 @@ Connection Type: Snowflake
 Fill in details for schema, database, warehouse, account ID, login, and password.
 
 for Email Setup -
+airflow/airflow.cfg
 I’ve configured the necessary SMTP settings in the airflow.cfg file. To set it up, go to the SMTP section of the file and enter your email ID. For the password, if you're using Gmail, you’ll need to generate an app password. To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. Then, add this generated password into the airflow.cfg file.
 
 operators_sensors_s3_snowflake_dag
+airflow/dags/operators_sensors_s3_snowflake_dag.py
+
 This DAG demonstrates a real-world use case by orchestrating data transfer from AWS S3 to Snowflake. It leverages advanced Airflow concepts like sensors, operators, and email notifications.
 
 DAG Details:
@@ -94,6 +98,8 @@ Load Data to Snowflake: Copies the new data from S3 to Snowflake.
 Email Notification: Sends an email when the process is complete.
 
 hooks_xcom_s3_snowflake
+airflow/dags/hooks_s3_snowflake.py
+
 In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and task groups to make the ETL process more organized:
 
 1. DAG Definition
@@ -123,6 +129,7 @@ The TaskGroup organizes extract_from_s3 and transform_data under a logical group
 
 
 branching_trigger
+airflow/dags/branching_trigger.py
 
 The Dag  monitors a file in an S3 bucket and performs branching logic based on its presence. If the file exists, it processes the ETL; if not, it sends an alert email.
 2. Tasks
@@ -153,6 +160,7 @@ BranchPythonOperator ensures only one path (branch) executes, preventing unneces
 
 
 taskflow_api
+airflow/dags/taskflow_api.py
 
 This Dag demonstrates an ETL pipeline implemented using Airflow's TaskFlow API,Each step is defined as a Python function decorated with @task().
 Extract: Reads a file from S3 and converts it into a Pandas DataFrame.
@@ -160,6 +168,7 @@ Transform: Processes the data (e.g., making all text uppercase).
 Load: Inserts the processed data into Snowflake.
 
 dbt_dag
+airflow/dags/dbt_dag.py
 I created this DAG to explore how to connect DBT Cloud with Airflow. For this, I used one of my previous DBT projects. First, I went to the DBT Cloud UI, navigated to the "Deploy" section, and created a job named "Job for Airflow," adding the dbt build command. 
 Then, I generated a personal API token by going to my profile, selecting "API Token," and creating a new personal access token (e.g., "Airflow Service Token"). After copying the token, I added the DBT Cloud connection in the Airflow UI.
 
