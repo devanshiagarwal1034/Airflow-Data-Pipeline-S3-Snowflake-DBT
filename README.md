@@ -6,6 +6,7 @@
 
 In this project, I’ve explored the powerful capabilities of Apache Airflow, gaining hands-on experience in workflow orchestration and integrating it with cloud platforms like **AWS and Snowflake**. As a data enthusiast, I’ve created this project to understand how Airflow can automate complex tasks, manage dependencies, and integrate various systems—making it an invaluable tool for anyone working with data pipelines.
 
+
 ### Concepts Covered
 
 - DAGs (Directed Acyclic Graphs)
@@ -174,4 +175,4 @@ In the DAG, I included the job ID of the DBT job I created in DBT Cloud and trig
 
 ### Conclusion
 
-This project helped me gain hands-on experience in using Apache Airflow to automate and orchestrate data workflows. I learned how to build efficient, scalable DAGs and integrate them with cloud platforms like AWS and Snowflake. By streamlining data pipelines, I enhanced my ability to manage complex workflows effectively.
+This project gave me valuable insights into building efficient and scalable data pipelines using Apache Airflow. The knowledge and skills I acquired will serve as a foundation for creating more advanced and complex workflows in the future. By applying these learnings, I aim to develop pipelines that can handle greater challenges and deliver even more impactful data solutions.
