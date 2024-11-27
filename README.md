@@ -57,6 +57,8 @@ This simple DAG is created to verify that Airflow setup is working correctly. It
 - Displays the current date.
 - Fetches a motivational quote from the Quotable API.
 
+ ![Image](Images/welcome_dag.png)
+
 ### Integrations
 
 #### AWS S3 Connection
@@ -109,6 +111,8 @@ This DAG demonstrates a real-world use case by orchestrating data transfer from 
 - **Load Data to Snowflake:** Copies the new data from S3 to Snowflake.
 - **Email Notification:** Sends an email when the process is complete.
 
+ ![Image](Images/s3_to_snowflake_etl_with_operators_and_sensors_dag.png)
+
 ### `s3_snowflake_etl_with_hooks_and_xcom_dag`
 
 [airflow/dags/s3_snowflake_etl_with_hooks_and_xcom_dag.py](airflow/dags/s3_snowflake_etl_with_hooks_and_xcom_dag.py)
@@ -122,6 +126,8 @@ In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and tas
 - **Email Notification Task:** Sends a success notification email after completion.
 - **Task Group** :The TaskGroup organizes extract_from_s3 and transform_data under a logical group (extract_and_transform). This improves DAG readability in the Airflow UI.
 
+   ![Image](Images/s3_snowflake_etl_with_hooks_and_xcom_dag.png)
+
 ### `trigger_and_branching_dag`
 
 [airflow/dags/trigger_and_branching_dag.py](airflow/dags/trigger_and_branching_dag.py)
@@ -132,15 +138,15 @@ This DAG monitors a file in an S3 bucket and performs branching logic based on i
 - **Check File Task (`check_file_exists`)**: Uses S3Hook.check_for_key() to verify if booking_details_raw.csv exists in the bucket airflow-buckets.Returns a branching decision (process_etl or send_alert_email) to the next task.
 - **Branching Task (`branching`)**: Directs workflow based on file presence (process ETL or send alert email).
 - **ETL Processing Task (`process_etl`)**: Placeholder for actual ETL logic.
-- **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.Sends an email if the file does not exist in the bucket.
-Uses the EmailOperator within a Python callable.
-
+- **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.Sends an email if the file does not exist in the bucket.Uses the EmailOperator within a Python callable.
 
 ***Workflow***
 - check_file_exists → branching
 - branching → process_etl_task (if file exists)
 - branching → send_alert_email_task (if file does not exist)
 - BranchPythonOperator ensures only one path (branch) executes, preventing unnecessary task executions.
+
+ ![Image](Images/trigger_and_branching_dag.png)
 
 ### `taskflow_etl_pipeline_dag`
 
@@ -150,6 +156,8 @@ This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is
 - **Extract**: Reads a file from S3 and converts it into a Pandas DataFrame.
 - **Transform**: Processes the data (e.g., making all text uppercase).
 - **Load**: Inserts the processed data into Snowflake.
+
+ ![Image](Images/taskflow_etl_pipeline_dag.png)
 
 ### `dbt_job_trigger_dag`
 
@@ -161,6 +169,8 @@ I created this DAG to explore how to connect DBT Cloud with Airflow. For this, I
 - After copying the token, I added the DBT Cloud connection in the Airflow UI.
 
 In the DAG, I included the job ID of the DBT job I created in DBT Cloud and triggered the DAG to run it.
+
+ ![Image](Images/dbt_job_trigger_dag.png)
 
 ### Conclusion
 
