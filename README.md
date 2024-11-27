@@ -153,7 +153,8 @@ This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is
 
 I created this DAG to explore how to connect DBT Cloud with Airflow. For this, I used one of my previous DBT projects. 
 - First, I went to the DBT Cloud UI, navigated to the "Deploy" section, and created a job named "Job for Airflow," adding the dbt build command. 
-- Then, I generated a personal API token by going to my profile, selecting "API Token," and creating a new personal access token (e.g., "Airflow Service Token"). - After copying the token, I added the DBT Cloud connection in the Airflow UI.
+- Then, I generated a personal API token by going to my profile, selecting "API Token," and creating a new personal access token (example - "Airflow Service Token").
+- After copying the token, I added the DBT Cloud connection in the Airflow UI.
 
 In the DAG, I included the job ID of the DBT job I created in DBT Cloud and triggered the DAG to run it.
 
