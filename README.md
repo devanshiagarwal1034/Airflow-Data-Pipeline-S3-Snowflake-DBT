@@ -86,9 +86,9 @@ I’ve configured the necessary SMTP settings in the airflow.cfg file.
 
 To set it up, go to the SMTP section of the file and enter your email ID. For the password, if you're using Gmail, you’ll need to generate an app password. To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. Then, add this generated password into the airflow.cfg file.
 
-### `operators_sensors_s3_snowflake_dag`
+### `s3_to_snowflake_etl_with_operators_and_sensors_dag`
 
-[airflow/dags/operators_sensors_s3_snowflake_dag.py](airflow/dags/operators_sensors_s3_snowflake_dag.py)
+[airflow/dags/s3_to_snowflake_etl_with_operators_and_sensors_dag.py](airflow/dags/s3_to_snowflake_etl_with_operators_and_sensors_dag.py)
 
 This DAG demonstrates a real-world use case by orchestrating data transfer from AWS S3 to Snowflake. It leverages advanced Airflow concepts like sensors, operators, and email notifications.
 
@@ -102,9 +102,9 @@ This DAG demonstrates a real-world use case by orchestrating data transfer from 
 - **Load Data to Snowflake:** Copies the new data from S3 to Snowflake.
 - **Email Notification:** Sends an email when the process is complete.
 
-### `hooks_xcom_s3_snowflake`
+### `s3_snowflake_etl_with_hooks_and_xcom_dag`
 
-[airflow/dags/hooks_s3_snowflake.py](airflow/dags/hooks_s3_snowflake.py)
+[airflow/dags/s3_snowflake_etl_with_hooks_and_xcom_dag.py](airflow/dags/s3_snowflake_etl_with_hooks_and_xcom_dag.py)
 
 In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and task groups to make the ETL process more organized.
 
@@ -115,9 +115,9 @@ In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and tas
 - **Email Notification Task:** Sends a success notification email after completion.
 - **Task Group** :The TaskGroup organizes extract_from_s3 and transform_data under a logical group (extract_and_transform). This improves DAG readability in the Airflow UI.
 
-### `branching_trigger`
+### `file_check_and_branching_dag`
 
-[airflow/dags/branching_trigger.py](airflow/dags/branching_trigger.py)
+[airflow/dags/trigger_and_branching_dag.py](airflow/dags/trigger_and_branching_dag.py)
 
 This DAG monitors a file in an S3 bucket and performs branching logic based on its presence. If the file exists, it processes the ETL; if not, it sends an alert email.
 
@@ -136,7 +136,7 @@ BranchPythonOperator ensures only one path (branch) executes, preventing unneces
 
 ### `taskflow_api`
 
-[airflow/dags/taskflow_api.py](airflow/dags/taskflow_api.py)
+[airflow/dags/taskflow_etl_pipeline_dag.py](airflow/dags/taskflow_etl_pipeline_dag.py)
 
 This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is defined as a Python function decorated with `@task()`:
 - **Extract**: Reads a file from S3 and converts it into a Pandas DataFrame.
@@ -145,7 +145,7 @@ This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is
 
 ### `dbt_dag`
 
-[airflow/dags/dbt_dag.py](airflow/dags/dbt_dag.py)
+[airflow/dags/dbt_job_trigger_dag.py](airflow/dags/dbt_job_trigger_dag.py)
 
 I created this DAG to explore how to connect DBT Cloud with Airflow. For this, I used one of my previous DBT projects. First, I went to the DBT Cloud UI, navigated to the "Deploy" section, and created a job named "Job for Airflow," adding the dbt build command. 
 Then, I generated a personal API token by going to my profile, selecting "API Token," and creating a new personal access token (e.g., "Airflow Service Token"). After copying the token, I added the DBT Cloud connection in the Airflow UI.
