@@ -81,7 +81,6 @@ To integrate with Snowflake:
 
 #### Email Setup
 
-
 I’ve configured the necessary SMTP settings in the airflow.cfg file.
 [airflow/airflow.cfg](airflow/airflow.cfg) 
 
@@ -110,10 +109,11 @@ This DAG demonstrates a real-world use case by orchestrating data transfer from 
 In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and task groups to make the ETL process more organized.
 
 **Tasks:**
-- **Extract Task (`extract_from_s3`)**: Uses `S3Hook` to read content of a file from S3 and pushes it to XCom.
-- **Transform Task (`transform_data`)**: Processes the CSV data and pushes the transformed data to XCom.
-- **Load Task (`load_to_snowflake`)**: Inserts the transformed data into Snowflake using `SnowflakeHook`.
+- **Extract Task (`extract_from_s3`)**: Uses S3Hook to read the content of a file (booking_details_raw.csv) from an S3 bucket.Pushes the file content into XCom for downstream tasks using kwargs['ti'].xcom_push.
+- **Transform Task (`transform_data`)**: Pulls the file content from XCom , Processes the CSV data, Pushes the transformed data (as a list of lists) into XCom for the load task.
+- **Load Task (`load_to_snowflake`)**: Pulls the transformed data from XCom , Uses SnowflakeHook to connect to Snowflake.Inserts the transformed data into the bookings_details_raw table using the INSERT INTO statement.
 - **Email Notification Task:** Sends a success notification email after completion.
+- **Task Group** :The TaskGroup organizes extract_from_s3 and transform_data under a logical group (extract_and_transform). This improves DAG readability in the Airflow UI.
 
 ### `branching_trigger`
 
@@ -122,10 +122,17 @@ In this DAG, I use Airflow’s hooks, XCom for inter-task communication, and tas
 This DAG monitors a file in an S3 bucket and performs branching logic based on its presence. If the file exists, it processes the ETL; if not, it sends an alert email.
 
 **Tasks:**
-- **Check File Task (`check_file_exists`)**: Verifies if `booking_details_raw.csv` exists in the bucket `airflow-buckets`.
+- **Check File Task (`check_file_exists`)**: Uses S3Hook.check_for_key() to verify if booking_details_raw.csv exists in the bucket airflow-buckets.Returns a branching decision (process_etl or send_alert_email) to the next task.
 - **Branching Task (`branching`)**: Directs workflow based on file presence (process ETL or send alert email).
 - **ETL Processing Task (`process_etl`)**: Placeholder for actual ETL logic.
-- **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.
+- **Email Alert Task (`send_alert_email`)**: Sends an email if the file is missing.Sends an email if the file does not exist in the bucket.
+Uses the EmailOperator within a Python callable.
+
+***Workflow***
+check_file_exists → branching
+branching → process_etl_task (if file exists)
+branching → send_alert_email_task (if file does not exist)
+BranchPythonOperator ensures only one path (branch) executes, preventing unnecessary task executions.
 
 ### `taskflow_api`
 
@@ -140,7 +147,10 @@ This DAG demonstrates an ETL pipeline using Airflow's TaskFlow API. Each step is
 
 [airflow/dags/dbt_dag.py](airflow/dags/dbt_dag.py)
 
-This DAG integrates DBT Cloud with Airflow. It triggers a DBT job using the DBT Cloud connection set in the Airflow UI. The job executes `dbt build` on a previously created DBT project.
+I created this DAG to explore how to connect DBT Cloud with Airflow. For this, I used one of my previous DBT projects. First, I went to the DBT Cloud UI, navigated to the "Deploy" section, and created a job named "Job for Airflow," adding the dbt build command. 
+Then, I generated a personal API token by going to my profile, selecting "API Token," and creating a new personal access token (e.g., "Airflow Service Token"). After copying the token, I added the DBT Cloud connection in the Airflow UI.
+
+In the DAG, I included the job ID of the DBT job I created in DBT Cloud and triggered the DAG to run it.
 
 ### Conclusion
 
