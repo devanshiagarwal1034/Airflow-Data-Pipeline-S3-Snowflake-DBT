@@ -81,7 +81,11 @@ To integrate with Snowflake:
 
 #### Email Setup
 
-To set up email notifications, configure the necessary SMTP settings in the `airflow.cfg` file. For Gmail, generate an app password by going to "Manage your Google account" → "App passwords". Set the app name as "Airflow" and use the generated password.
+
+I’ve configured the necessary SMTP settings in the airflow.cfg file.
+[airflow/airflow.cfg](airflow/airflow.cfg) 
+
+To set it up, go to the SMTP section of the file and enter your email ID. For the password, if you're using Gmail, you’ll need to generate an app password. To do this, go to "Manage your Google account," search for "App passwords," set the app name as "Airflow," and create the password. Then, add this generated password into the airflow.cfg file.
 
 ### `operators_sensors_s3_snowflake_dag`
 
