@@ -1,4 +1,6 @@
-# ![image](https://github.com/user-attachments/assets/0d3fce80-af01-4d23-a6a7-a2ead03ae025) Airflow Data Pipeline: S3, Snowflake & DBT
+# Airflow Data Pipeline: S3, Snowflake & DBT
+
+<img src="https://github.com/user-attachments/assets/0d3fce80-af01-4d23-a6a7-a2ead03ae025" alt="Airflow Data Pipeline" width="500"/>
 
 ### Overview
 
