@@ -46,6 +46,8 @@ After successful execution, an Airflow folder will be generated in your project 
 - Username: `admin`
 - Password: (found in `standalone_admin_password.txt` in the project folder)
 
+ ![Image](Images/airflow_ui.png)
+
 ### `welcome_dag`
 
 [airflow/dags/welcome_dag.py](airflow/dags/welcome_dag.py)
