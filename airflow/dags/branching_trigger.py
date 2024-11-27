@@ -12,7 +12,7 @@ default_args = {
     "depends_on_past": False,  
     "email_on_failure": True,
     "email_on_retry": False,
-    "email": ["devanshiec1034@gmail.com"],
+    "email": ["<your_email_id>"],
 }
 
 def check_file_exists():
@@ -35,7 +35,7 @@ def send_alert_email(**kwargs):
     #Send an email alert if the file is missing.
     send_email = EmailOperator(
         task_id='send_email',
-        to="devanshiec1034@gmail.com",
+        to="<your_email_id>",
         subject="Booking Data Missing",
         html_content="The booking details file for today is missing from the S3 bucket.",
     )
